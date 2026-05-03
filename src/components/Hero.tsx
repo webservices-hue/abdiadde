@@ -1,5 +1,6 @@
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useMotionPrefs } from "@/hooks/use-motion-prefs";
 import { Play, Sparkles, Youtube, Instagram, Facebook, Ghost } from "lucide-react";
 import cameraImg from "@/assets/camera-hero.jpg";
 import grainBg from "@/assets/grain-bg.jpg";
@@ -16,11 +17,12 @@ const SPRING = { stiffness: 120, damping: 30, mass: 0.35, restDelta: 0.001 };
 
 export function Hero() {
   const { t } = useI18n();
+  const { lite } = useMotionPrefs();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const sp = useSpring(scrollYProgress, SPRING);
 
-  // Camera shrinks/moves up to the back as user scrolls — never disappears entirely until end
+  // Camera shrinks/moves up to the back as user scrolls
   const cameraScale = useTransform(sp, [0, 0.5, 1], [1, 0.85, 0.55]);
   const cameraY = useTransform(sp, [0, 1], [0, -120]);
   const cameraOpacity = useTransform(sp, [0, 0.7, 1], [1, 0.45, 0.15]);
@@ -30,12 +32,8 @@ export function Hero() {
   // Hero text fades early
   const contentOpacity = useTransform(sp, [0, 0.18], [1, 0]);
   const contentY = useTransform(sp, [0, 0.3], [0, -60]);
-  const scrollHintOpacity = useTransform(sp, [0, 0.1], [1, 0]);
 
-  // Cards reveal in sequence as you scroll down, then HOLD fully visible
-  // through a long "reading window" so you can pause and read the stats.
-  // Scrolling back up reverses the same animation symmetrically.
-  // Reveal window: 0.08 → 0.45 (staggered). Hold: 0.45 → 1.0.
+  // Cards reveal in sequence as you scroll down, then HOLD fully visible.
   const card0 = useTransform(sp, [0.08, 0.22], [0, 1]);
   const card1 = useTransform(sp, [0.14, 0.28], [0, 1]);
   const card2 = useTransform(sp, [0.20, 0.34], [0, 1]);
@@ -54,16 +52,21 @@ export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { amount: 0.3 });
 
+  // On phones / reduced-motion: collapse the 2x-tall pinned section and
+  // disable scroll-bound transforms; cards become a static grid.
+  const cameraStyle = lite ? undefined : { scale: cameraScale, y: cameraY, opacity: cameraOpacity, filter: cameraFilter };
+  const contentStyle = lite ? undefined : { opacity: contentOpacity, y: contentY };
+
   return (
-    <section ref={ref} className="relative h-[200vh] sm:h-[220vh]" id="top">
-      <div ref={sectionRef} className="sticky top-0 h-screen w-full overflow-hidden">
+    <section ref={ref} className={lite ? "relative" : "relative h-[200vh] sm:h-[220vh]"} id="top">
+      <div ref={sectionRef} className={lite ? "relative min-h-screen w-full overflow-hidden" : "sticky top-0 h-screen w-full overflow-hidden"}>
         <div className="absolute inset-0 bg-background" />
         <img src={grainBg} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-screen" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,oklch(0.78_0.13_82_/_0.18),transparent_60%)]" />
 
         {/* Camera */}
         <motion.div
-          style={{ scale: cameraScale, y: cameraY, opacity: cameraOpacity, filter: cameraFilter }}
+          style={cameraStyle}
           className="absolute inset-0 flex items-center justify-center z-10 will-change-transform"
         >
           <div className="relative w-[90%] max-w-3xl aspect-[3/2]">
@@ -80,7 +83,7 @@ export function Hero() {
 
         {/* Hero text */}
         <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
+          style={contentStyle}
           className="absolute inset-0 z-20 flex items-end pb-16 sm:items-center sm:pb-0 justify-center px-4 will-change-transform"
         >
           <div className="text-center max-w-4xl">
@@ -134,7 +137,7 @@ export function Hero() {
               {platforms.map((p, i) => {
                 const { Icon } = p;
                 return (
-                  <CardItem key={p.name} progress={cardProgress[i]} platform={p} Icon={Icon} />
+                  <CardItem key={p.name} progress={cardProgress[i]} platform={p} Icon={Icon} lite={lite} index={i} />
                 );
               })}
             </div>
@@ -153,10 +156,14 @@ function CardItem({
   progress,
   platform,
   Icon,
+  lite,
+  index,
 }: {
-  progress: ReturnType<typeof useTransform<number, number>>;
+  progress: MotionValue<number>;
   platform: { name: string; count: string; href: string; color: string };
   Icon: React.ComponentType<{ className?: string }>;
+  lite: boolean;
+  index: number;
 }) {
   const opacity = useTransform(progress, [0, 1], [0, 1]);
   const y = useTransform(progress, [0, 1], [60, 0]);
@@ -166,7 +173,10 @@ function CardItem({
       href={platform.href}
       target="_blank"
       rel="noreferrer"
-      style={{ opacity, y, scale }}
+      style={lite ? undefined : { opacity, y, scale }}
+      initial={lite ? { opacity: 0, y: 12 } : false}
+      animate={lite ? { opacity: 1, y: 0 } : undefined}
+      transition={lite ? { delay: 0.05 * index, duration: 0.4 } : undefined}
       whileHover={{ y: -6 }}
       className="group glass-strong relative overflow-hidden rounded-2xl p-4 sm:p-5 hover:border-gold/40 transition-colors will-change-transform pointer-events-auto"
     >

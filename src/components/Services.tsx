@@ -1,5 +1,6 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useMotionPrefs } from "@/hooks/use-motion-prefs";
 import { Camera, Film, Sparkles, Code2, Megaphone, Award, Handshake, Rocket } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import svcContent from "@/assets/svc-content.jpg";
@@ -22,6 +23,7 @@ export function Services() {
     { key: "web" as const, Icon: Code2, image: svcWeb },
   ];
 
+  const { lite } = useMotionPrefs();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const sp = useSpring(scrollYProgress, SPRING);
@@ -43,7 +45,7 @@ export function Services() {
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {items.map((item, i) => (
-            <ServiceCard key={item.key} index={i} total={items.length} sp={sp} item={item} t={t} />
+            <ServiceCard key={item.key} index={i} total={items.length} sp={sp} item={item} t={t} lite={lite} />
           ))}
         </div>
 
@@ -90,12 +92,14 @@ function ServiceCard({
   sp,
   item,
   t,
+  lite,
 }: {
   index: number;
   total: number;
-  sp: ReturnType<typeof useSpring>;
+  sp: MotionValue<number>;
   item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }>; image: string };
   t: ReturnType<typeof useI18n>["t"];
+  lite: boolean;
 }) {
   // Each card animates as scroll progresses through the section
   const start = 0.15 + index * 0.08;
@@ -110,7 +114,11 @@ function ServiceCard({
 
   return (
     <motion.div
-      style={{ y, opacity, rotate, scale }}
+      style={lite ? undefined : { y, opacity, rotate, scale }}
+      initial={lite ? { opacity: 0, y: 24 } : false}
+      whileInView={lite ? { opacity: 1, y: 0 } : undefined}
+      viewport={lite ? { once: true, margin: "-10%" } : undefined}
+      transition={lite ? { delay: index * 0.06, duration: 0.5 } : undefined}
       whileHover={{ y: -8 }}
       className="group relative overflow-hidden rounded-3xl liquid-glass p-6 sm:p-8 hover:border-gold/40 transition-colors will-change-transform"
     >
