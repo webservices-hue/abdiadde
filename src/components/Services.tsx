@@ -92,12 +92,14 @@ function ServiceCard({
   sp,
   item,
   t,
+  lite,
 }: {
   index: number;
   total: number;
-  sp: ReturnType<typeof useSpring>;
+  sp: MotionValue<number>;
   item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }>; image: string };
   t: ReturnType<typeof useI18n>["t"];
+  lite: boolean;
 }) {
   // Each card animates as scroll progresses through the section
   const start = 0.15 + index * 0.08;
