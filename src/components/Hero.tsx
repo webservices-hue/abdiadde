@@ -116,11 +116,11 @@ export function Hero() {
               transition={{ delay: 0.8, duration: 0.8 }}
               className="mt-8 flex flex-wrap items-center justify-center gap-3"
             >
-              <a href="#contact" className="group inline-flex items-center gap-2 rounded-full bg-gold text-[oklch(0.08_0.005_80)] px-6 py-3 text-sm font-semibold hover:shadow-gold transition-all">
+              <a href="#work" className="group inline-flex items-center gap-2 rounded-full bg-gold text-[oklch(0.08_0.005_80)] px-6 py-3 text-sm font-semibold hover:shadow-gold transition-all">
                 <Play className="size-4 fill-current" />
                 {t.hero.cta1}
               </a>
-              <a href="#work" className="inline-flex items-center gap-2 rounded-full glass-strong px-6 py-3 text-sm font-semibold hover:border-gold/50 transition-all">
+              <a href="#contact" className="inline-flex items-center gap-2 rounded-full glass-strong px-6 py-3 text-sm font-semibold hover:border-gold/50 transition-all">
                 {t.hero.cta2}
               </a>
             </motion.div>
