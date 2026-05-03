@@ -69,21 +69,6 @@ export function Contact() {
               </div>
               <Send className="size-4 text-gold" />
             </a>
-            {/* Map-style stylized image */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden glass">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,oklch(0.78_0.13_82_/_0.25),transparent_60%)]" />
-              <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 200 150">
-                <defs>
-                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="oklch(0.78 0.13 82)" strokeWidth="0.3" />
-                  </pattern>
-                </defs>
-                <rect width="200" height="150" fill="url(#grid)" />
-                <circle cx="100" cy="75" r="3" fill="oklch(0.78 0.13 82)" />
-                <circle cx="100" cy="75" r="12" fill="none" stroke="oklch(0.78 0.13 82)" strokeWidth="0.5" className="animate-pulse" />
-              </svg>
-              <div className="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-gold">Worldwide</div>
-            </div>
           </motion.div>
 
           {/* Form */}
