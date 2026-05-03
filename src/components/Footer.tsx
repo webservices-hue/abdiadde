@@ -1,5 +1,5 @@
 import { SITE } from "@/lib/site";
-import { Instagram, Facebook, Youtube, Ghost, Heart } from "lucide-react";
+import { Instagram, Facebook, Youtube, Ghost } from "lucide-react";
 
 export function Footer() {
   return (
