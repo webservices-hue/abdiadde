@@ -5,15 +5,16 @@ import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
 
 const services = ["Content Creation", "Video Editing", "Photography", "Web Systems"];
-const methods = ["WhatsApp", "Phone", "Email"];
+const methods = ["WhatsApp", "Phone"];
 
 export function Contact() {
   const { t } = useI18n();
-  const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], notes: "" });
+  const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], phone: "", notes: "" });
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method}.`;
+    const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
+    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
     const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   };
