@@ -66,7 +66,7 @@ export function Hero() {
 
         {/* Camera */}
         <motion.div
-          style={{ scale: cameraScale, y: cameraY, opacity: cameraOpacity, filter: cameraFilter }}
+          style={cameraStyle}
           className="absolute inset-0 flex items-center justify-center z-10 will-change-transform"
         >
           <div className="relative w-[90%] max-w-3xl aspect-[3/2]">
