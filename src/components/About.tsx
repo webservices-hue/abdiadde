@@ -7,13 +7,6 @@ export function About() {
   return (
     <section id="about" className="relative py-24 sm:py-32 px-4 sm:px-6">
       <div className="mx-auto max-w-7xl">
-        <div className="text-center mb-12">
-          <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">{t.about.title}</p>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-display font-bold leading-tight">
-            About <span className="text-gradient-gold">Me</span>
-          </h2>
-        </div>
-
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -39,15 +32,14 @@ export function About() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-15%" }}
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+            className="text-center lg:text-left"
           >
-            <h3 className="font-display text-2xl sm:text-3xl font-bold mb-4">
+            <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">About Me</p>
+            <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Capturing moments. <span className="text-gradient-gold">Crafting stories.</span>
             </h3>
-            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-              Hi, I'm Abdi-Addee — a Photographer and Content Creator.
-            </p>
-            <p className="mt-4 text-base text-muted-foreground leading-relaxed">
-              Welcome to my portfolio website. I am passionate about capturing moments through photography and creating engaging digital content. My work focuses on storytelling, creativity, and bringing ideas to life through visuals.
+            <p className="text-base sm:text-lg text-muted-foreground leading-relaxed text-center">
+              Hi, I'm Abdi-Addee — a Photographer and Content Creator. Welcome to my portfolio website. I am passionate about capturing moments through photography and creating engaging digital content. My work focuses on storytelling, creativity, and bringing ideas to life through visuals.
             </p>
 
             <div className="mt-8 grid grid-cols-3 gap-3">

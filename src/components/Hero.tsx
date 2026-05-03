@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
-import { ArrowDown, Play, Sparkles, Youtube, Instagram, Facebook } from "lucide-react";
+import { useRef } from "react";
+import { ArrowDown, Play, Sparkles, Youtube, Instagram, Facebook, Ghost } from "lucide-react";
 import cameraImg from "@/assets/camera-hero.jpg";
 import grainBg from "@/assets/grain-bg.jpg";
 import { useI18n } from "@/lib/i18n";
@@ -12,92 +12,55 @@ const TikTokIcon = (p: { className?: string }) => (
   </svg>
 );
 
-function Counter({ to, active }: { to: number; active: boolean }) {
-  const ref = useRef<HTMLSpanElement>(null);
-  const [n, setN] = useState(0);
-  const startedRef = useRef(false);
-  useEffect(() => {
-    if (!active || startedRef.current) return;
-    startedRef.current = true;
-    const duration = 1500;
-    const t0 = performance.now();
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / duration);
-      const eased = 1 - Math.pow(1 - p, 3);
-      setN(Math.floor(to * eased));
-      if (p < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  }, [active, to]);
-  const fmt = (v: number) => v >= 1000 ? `${(v / 1000).toFixed(v >= 10000 ? 0 : 1)}K` : `${v}`;
-  return <span ref={ref}>{fmt(n)}+</span>;
-}
-
-const SPRING = { stiffness: 80, damping: 22, mass: 0.6 };
+const SPRING = { stiffness: 90, damping: 24, mass: 0.5 };
 
 export function Hero() {
   const { t } = useI18n();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-
-  // Smooth spring-driven progress for reversible animation
   const sp = useSpring(scrollYProgress, SPRING);
 
-  // Camera transforms (eased through spring)
-  const cameraScale = useTransform(sp, [0, 0.55], [1, 2.6]);
-  const cameraRotate = useTransform(sp, [0, 0.55], [0, 8]);
-  const cameraOpacity = useTransform(sp, [0.35, 0.6], [1, 0]);
-  const cameraBlur = useTransform(sp, [0.35, 0.6], [0, 8]);
+  // Camera shrinks/moves up to the back as user scrolls — never disappears entirely until end
+  const cameraScale = useTransform(sp, [0, 0.5, 1], [1, 0.85, 0.55]);
+  const cameraY = useTransform(sp, [0, 1], [0, -120]);
+  const cameraOpacity = useTransform(sp, [0, 0.7, 1], [1, 0.45, 0.15]);
+  const cameraBlur = useTransform(sp, [0, 1], [0, 6]);
   const cameraFilter = useTransform(cameraBlur, (b) => `blur(${b}px)`);
 
-  // Flash
-  const flashOpacity = useTransform(sp, [0.5, 0.57, 0.65], [0, 0.9, 0]);
+  // Hero text fades early
+  const contentOpacity = useTransform(sp, [0, 0.18], [1, 0]);
+  const contentY = useTransform(sp, [0, 0.3], [0, -60]);
+  const scrollHintOpacity = useTransform(sp, [0, 0.1], [1, 0]);
 
-  // Hero text
-  const contentOpacity = useTransform(sp, [0.05, 0.3], [1, 0]);
-  const contentY = useTransform(sp, [0, 0.4], [0, -60]);
-
-  // Cards reveal (after flash)
-  const cardsOpacity = useTransform(sp, [0.6, 0.78], [0, 1]);
-  const cardsY = useTransform(sp, [0.6, 0.85], [60, 0]);
-  const cardsScale = useTransform(sp, [0.6, 0.85], [0.92, 1]);
-
-  // Per-card stagger via different ranges
-  const card0 = useTransform(sp, [0.62, 0.74], [0, 1]);
-  const card1 = useTransform(sp, [0.66, 0.78], [0, 1]);
-  const card2 = useTransform(sp, [0.7, 0.82], [0, 1]);
-  const card3 = useTransform(sp, [0.74, 0.86], [0, 1]);
-  const cardProgress = [card0, card1, card2, card3];
-
-  const [phase, setPhase] = useState<"intro" | "cards">("intro");
-  useEffect(() => {
-    const unsub = sp.on("change", (v) => setPhase(v > 0.65 ? "cards" : "intro"));
-    return () => unsub();
-  }, [sp]);
+  // Cards begin revealing IMMEDIATELY as scroll begins
+  const card0 = useTransform(sp, [0.05, 0.2], [0, 1]);
+  const card1 = useTransform(sp, [0.1, 0.25], [0, 1]);
+  const card2 = useTransform(sp, [0.15, 0.3], [0, 1]);
+  const card3 = useTransform(sp, [0.2, 0.35], [0, 1]);
+  const card4 = useTransform(sp, [0.25, 0.4], [0, 1]);
+  const cardProgress = [card0, card1, card2, card3, card4];
 
   const platforms = [
-    { name: "YouTube", Icon: Youtube, count: SITE.followers.youtube, href: SITE.socials.youtube, color: "oklch(0.62 0.22 27)" },
-    { name: "TikTok", Icon: TikTokIcon, count: SITE.followers.tiktok, href: SITE.socials.tiktok, color: "oklch(0.78 0.13 82)" },
-    { name: "Instagram", Icon: Instagram, count: SITE.followers.instagram, href: SITE.socials.instagram, color: "oklch(0.65 0.23 350)" },
-    { name: "Facebook", Icon: Facebook, count: SITE.followers.facebook, href: SITE.socials.facebook, color: "oklch(0.55 0.18 260)" },
+    { name: "YouTube", Icon: Youtube, count: SITE.followers.youtube.display, href: SITE.socials.youtube, color: "oklch(0.62 0.22 27)" },
+    { name: "TikTok", Icon: TikTokIcon, count: SITE.followers.tiktok.display, href: SITE.socials.tiktok, color: "oklch(0.78 0.13 82)" },
+    { name: "Instagram", Icon: Instagram, count: SITE.followers.instagram.display, href: SITE.socials.instagram, color: "oklch(0.65 0.23 350)" },
+    { name: "Snapchat", Icon: Ghost, count: SITE.followers.snapchat.display, href: SITE.socials.snapchat, color: "oklch(0.92 0.18 100)" },
+    { name: "Facebook", Icon: Facebook, count: SITE.followers.facebook.display, href: SITE.socials.facebook, color: "oklch(0.55 0.18 260)" },
   ];
 
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative h-[260vh]" id="top">
+    <section ref={ref} className="relative h-[220vh]" id="top">
       <div ref={sectionRef} className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 bg-background" />
         <img src={grainBg} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-screen" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,oklch(0.78_0.13_82_/_0.18),transparent_60%)]" />
 
-        {/* Flash */}
-        <motion.div style={{ opacity: flashOpacity }} className="absolute inset-0 bg-white pointer-events-none z-30" />
-
         {/* Camera */}
         <motion.div
-          style={{ scale: cameraScale, rotate: cameraRotate, opacity: cameraOpacity, filter: cameraFilter }}
+          style={{ scale: cameraScale, y: cameraY, opacity: cameraOpacity, filter: cameraFilter }}
           className="absolute inset-0 flex items-center justify-center z-10 will-change-transform"
         >
           <div className="relative w-[90%] max-w-3xl aspect-[3/2]">
@@ -159,7 +122,7 @@ export function Hero() {
               </a>
             </motion.div>
             <motion.div
-              style={{ opacity: useTransform(sp, [0, 0.15], [1, 0]) }}
+              style={{ opacity: scrollHintOpacity }}
               className="mt-16 flex flex-col items-center gap-2 text-xs text-muted-foreground/70 tracking-widest uppercase"
             >
               <span>{t.hero.scroll}</span>
@@ -168,30 +131,22 @@ export function Hero() {
           </div>
         </motion.div>
 
-        {/* Audience cards — appear after flash */}
-        <motion.div
-          style={{ opacity: cardsOpacity, y: cardsY, scale: cardsScale }}
-          className="absolute inset-0 z-20 flex flex-col items-center justify-center px-4 sm:px-6 will-change-transform"
-        >
-          <div className="text-center mb-8">
-            <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">500K+ Audience</p>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold">{t.audience.title}</h2>
+        {/* Audience cards — start as soon as scroll begins */}
+        <div className="absolute inset-x-0 bottom-0 z-20 pb-10 sm:pb-14 px-4 sm:px-6 pointer-events-none">
+          <div className="mx-auto max-w-6xl">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
+              {platforms.map((p, i) => {
+                const { Icon } = p;
+                return (
+                  <CardItem key={p.name} progress={cardProgress[i]} platform={p} Icon={Icon} />
+                );
+              })}
+            </div>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 w-full max-w-5xl">
-            {platforms.map((p, i) => {
-              const { Icon } = p;
-              return (
-                <CardItem key={p.name} progress={cardProgress[i]} active={phase === "cards"} platform={p} Icon={Icon} />
-              );
-            })}
-          </div>
-        </motion.div>
+        </div>
 
         <div className="hidden lg:flex absolute left-6 top-1/2 -translate-y-1/2 z-20 flex-col gap-3 text-[10px] tracking-[0.3em] text-muted-foreground/60 uppercase">
           <span className="rotate-180 [writing-mode:vertical-rl]">REC · 04K · 24FPS · ISO 800</span>
-        </div>
-        <div className="absolute right-6 bottom-6 z-20 text-[10px] tracking-[0.3em] text-muted-foreground/60 uppercase font-mono">
-          © {new Date().getFullYear()} · {SITE.name}
         </div>
       </div>
     </section>
@@ -200,18 +155,16 @@ export function Hero() {
 
 function CardItem({
   progress,
-  active,
   platform,
   Icon,
 }: {
   progress: ReturnType<typeof useTransform<number, number>>;
-  active: boolean;
-  platform: { name: string; count: number; href: string; color: string };
+  platform: { name: string; count: string; href: string; color: string };
   Icon: React.ComponentType<{ className?: string }>;
 }) {
   const opacity = useTransform(progress, [0, 1], [0, 1]);
-  const y = useTransform(progress, [0, 1], [40, 0]);
-  const scale = useTransform(progress, [0, 1], [0.9, 1]);
+  const y = useTransform(progress, [0, 1], [60, 0]);
+  const scale = useTransform(progress, [0, 1], [0.85, 1]);
   return (
     <motion.a
       href={platform.href}
@@ -219,17 +172,17 @@ function CardItem({
       rel="noreferrer"
       style={{ opacity, y, scale }}
       whileHover={{ y: -6 }}
-      className="group glass relative overflow-hidden rounded-2xl p-5 sm:p-6 hover:border-gold/40 transition-colors will-change-transform"
+      className="group glass-strong relative overflow-hidden rounded-2xl p-4 sm:p-5 hover:border-gold/40 transition-colors will-change-transform pointer-events-auto"
     >
       <div
         className="absolute -top-12 -right-12 size-32 rounded-full blur-3xl opacity-30 group-hover:opacity-60 transition-opacity"
         style={{ background: platform.color }}
       />
-      <Icon className="size-6 text-foreground/80 group-hover:text-gold transition-colors" />
-      <div className="mt-4 font-display text-2xl sm:text-3xl font-bold tracking-tight">
-        <Counter to={platform.count} active={active} />
+      <Icon className="size-5 text-foreground/80 group-hover:text-gold transition-colors" />
+      <div className="mt-3 font-display text-xl sm:text-2xl font-bold tracking-tight text-gradient-gold">
+        {platform.count}
       </div>
-      <div className="mt-1 text-xs sm:text-sm text-muted-foreground">{platform.name}</div>
+      <div className="mt-0.5 text-[11px] sm:text-xs text-muted-foreground">{platform.name}</div>
     </motion.a>
   );
 }

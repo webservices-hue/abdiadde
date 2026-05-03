@@ -13,10 +13,11 @@ export const SITE = {
     youtube: "https://www.youtube.com/@abdiaddee",
   },
   followers: {
-    youtube: 180000,
-    tiktok: 220000,
-    instagram: 80000,
-    facebook: 50000,
+    youtube: { value: 180000, display: "180K+" },
+    tiktok: { value: 665300, display: "665.3K+" },
+    instagram: { value: 60800, display: "60.8K+" },
+    snapchat: { value: 50000, display: "50K+" },
+    facebook: { value: 50000, display: "50K+" },
   },
   videos: [
     { id: "dQw4w9WgXcQ", title: "Cinematic Reel 2025" },
