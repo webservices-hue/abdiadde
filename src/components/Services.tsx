@@ -16,10 +16,10 @@ const SPRING = { stiffness: 110, damping: 28, mass: 0.4, restDelta: 0.001 };
 export function Services() {
   const { t } = useI18n();
   const items = [
-    { key: "content" as const, Icon: Sparkles },
-    { key: "video" as const, Icon: Film },
-    { key: "photo" as const, Icon: Camera },
-    { key: "web" as const, Icon: Code2 },
+    { key: "content" as const, Icon: Sparkles, image: svcContent },
+    { key: "video" as const, Icon: Film, image: svcVideo },
+    { key: "photo" as const, Icon: Camera, image: svcPhoto },
+    { key: "web" as const, Icon: Code2, image: svcWeb },
   ];
 
   const ref = useRef<HTMLDivElement>(null);
