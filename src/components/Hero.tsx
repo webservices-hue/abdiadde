@@ -137,7 +137,7 @@ export function Hero() {
               {platforms.map((p, i) => {
                 const { Icon } = p;
                 return (
-                  <CardItem key={p.name} progress={cardProgress[i]} platform={p} Icon={Icon} />
+                  <CardItem key={p.name} progress={cardProgress[i]} platform={p} Icon={Icon} lite={lite} index={i} />
                 );
               })}
             </div>
