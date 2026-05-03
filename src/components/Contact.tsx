@@ -1,8 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, type FormEvent } from "react";
-import { Phone, MessageCircle, MapPin, Send, Calendar } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Send, Calendar, Copy, X, Check, ExternalLink } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
+import { toast } from "sonner";
 
 const services = ["Content Creation", "Video Editing", "Photography", "Web Systems"];
 const methods = ["WhatsApp", "Phone"];
@@ -10,19 +11,34 @@ const methods = ["WhatsApp", "Phone"];
 export function Contact() {
   const { t } = useI18n();
   const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], phone: "", notes: "" });
+  const [fallback, setFallback] = useState<{ phone: string; message: string; url: string } | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copy = async (label: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      toast.success(`${label} copied`);
+      setTimeout(() => setCopied(null), 1800);
+    } catch {
+      toast.error("Copy failed — please copy manually");
+    }
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
-    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
-    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const message = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
+    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
+    let opened: Window | null = null;
+    try {
+      opened = window.open(url, "_blank", "noopener,noreferrer");
+    } catch {
+      opened = null;
+    }
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      setFallback({ phone: SITE.whatsappDisplay, message, url });
+    }
   };
 
   return (
