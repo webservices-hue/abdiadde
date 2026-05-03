@@ -46,7 +46,6 @@ export function About() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="text-center lg:text-left"
           >
-            <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">About Me</p>
             <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Capturing moments. <span className="text-gradient-gold">Crafting stories.</span>
             </h3>
