@@ -114,7 +114,11 @@ function ServiceCard({
 
   return (
     <motion.div
-      style={{ y, opacity, rotate, scale }}
+      style={lite ? undefined : { y, opacity, rotate, scale }}
+      initial={lite ? { opacity: 0, y: 24 } : false}
+      whileInView={lite ? { opacity: 1, y: 0 } : undefined}
+      viewport={lite ? { once: true, margin: "-10%" } : undefined}
+      transition={lite ? { delay: index * 0.06, duration: 0.5 } : undefined}
       whileHover={{ y: -8 }}
       className="group relative overflow-hidden rounded-3xl liquid-glass p-6 sm:p-8 hover:border-gold/40 transition-colors will-change-transform"
     >
