@@ -83,7 +83,7 @@ export function Hero() {
 
         {/* Hero text */}
         <motion.div
-          style={{ opacity: contentOpacity, y: contentY }}
+          style={contentStyle}
           className="absolute inset-0 z-20 flex items-end pb-16 sm:items-center sm:pb-0 justify-center px-4 will-change-transform"
         >
           <div className="text-center max-w-4xl">
