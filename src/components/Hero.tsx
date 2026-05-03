@@ -12,7 +12,7 @@ const TikTokIcon = (p: { className?: string }) => (
   </svg>
 );
 
-const SPRING = { stiffness: 90, damping: 24, mass: 0.5 };
+const SPRING = { stiffness: 120, damping: 30, mass: 0.35, restDelta: 0.001 };
 
 export function Hero() {
   const { t } = useI18n();
