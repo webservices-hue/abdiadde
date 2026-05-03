@@ -1,8 +1,9 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, type FormEvent } from "react";
-import { Phone, MessageCircle, MapPin, Send, Calendar } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Send, Calendar, Copy, X, Check, ExternalLink } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
+import { toast } from "sonner";
 
 const services = ["Content Creation", "Video Editing", "Photography", "Web Systems"];
 const methods = ["WhatsApp", "Phone"];
@@ -10,19 +11,34 @@ const methods = ["WhatsApp", "Phone"];
 export function Contact() {
   const { t } = useI18n();
   const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], phone: "", notes: "" });
+  const [fallback, setFallback] = useState<{ phone: string; message: string; url: string } | null>(null);
+  const [copied, setCopied] = useState<string | null>(null);
+
+  const copy = async (label: string, text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(label);
+      toast.success(`${label} copied`);
+      setTimeout(() => setCopied(null), 1800);
+    } catch {
+      toast.error("Copy failed — please copy manually");
+    }
+  };
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
     const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
-    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
-    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
-    const a = document.createElement("a");
-    a.href = url;
-    a.target = "_blank";
-    a.rel = "noopener noreferrer";
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
+    const message = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
+    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
+    let opened: Window | null = null;
+    try {
+      opened = window.open(url, "_blank", "noopener,noreferrer");
+    } catch {
+      opened = null;
+    }
+    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+      setFallback({ phone: SITE.whatsappDisplay, message, url });
+    }
   };
 
   return (
@@ -159,6 +175,86 @@ export function Contact() {
           </motion.form>
         </div>
       </div>
+
+      <AnimatePresence>
+        {fallback && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-background/80 backdrop-blur-sm"
+            onClick={() => setFallback(null)}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ type: "spring", stiffness: 200, damping: 22 }}
+              onClick={(e) => e.stopPropagation()}
+              className="glass-strong relative w-full max-w-lg rounded-3xl p-6 sm:p-8"
+            >
+              <button
+                aria-label="Close"
+                onClick={() => setFallback(null)}
+                className="absolute top-4 right-4 size-9 rounded-full glass flex items-center justify-center hover:border-gold/40"
+              >
+                <X className="size-4" />
+              </button>
+              <div className="flex items-center gap-3 mb-2">
+                <div className="size-10 rounded-xl bg-gold/10 flex items-center justify-center">
+                  <MessageCircle className="size-5 text-gold" />
+                </div>
+                <h3 className="font-display text-xl font-bold">WhatsApp blocked</h3>
+              </div>
+              <p className="text-sm text-muted-foreground mb-5">
+                We couldn't open WhatsApp automatically. Copy the details below and send them manually, or try the direct link.
+              </p>
+
+              <div className="space-y-3">
+                <div className="glass rounded-2xl p-4">
+                  <div className="flex items-center justify-between gap-3 mb-1">
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Phone</div>
+                    <button
+                      type="button"
+                      onClick={() => copy("Phone", fallback.phone)}
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-gold hover:underline"
+                    >
+                      {copied === "Phone" ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+                      {copied === "Phone" ? "Copied" : "Copy"}
+                    </button>
+                  </div>
+                  <div className="font-medium select-all break-all">{fallback.phone}</div>
+                </div>
+
+                <div className="glass rounded-2xl p-4">
+                  <div className="flex items-center justify-between gap-3 mb-1">
+                    <div className="text-xs uppercase tracking-wider text-muted-foreground">Message</div>
+                    <button
+                      type="button"
+                      onClick={() => copy("Message", fallback.message)}
+                      className="inline-flex items-center gap-1.5 text-xs font-medium text-gold hover:underline"
+                    >
+                      {copied === "Message" ? <Check className="size-3.5" /> : <Copy className="size-3.5" />}
+                      {copied === "Message" ? "Copied" : "Copy"}
+                    </button>
+                  </div>
+                  <pre className="mt-1 text-sm whitespace-pre-wrap font-sans text-foreground/90 select-all max-h-48 overflow-y-auto">{fallback.message}</pre>
+                </div>
+              </div>
+
+              <a
+                href={fallback.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-5 w-full inline-flex items-center justify-center gap-2 rounded-xl bg-gold text-[oklch(0.08_0.005_80)] px-6 py-3 font-semibold hover:shadow-gold transition-all"
+              >
+                <ExternalLink className="size-4" />
+                Open WhatsApp link
+              </a>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
