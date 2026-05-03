@@ -1,9 +1,9 @@
 export const SITE = {
   name: "Abdi Adde",
   tagline: "Filmmaker. Storyteller. Digital Architect.",
-  whatsapp: "252611111111", // placeholder — swap with real number
-  whatsappDisplay: "+252 61 1 111 111",
-  phone: "+252 61 1 111 111",
+  whatsapp: "252634229393",
+  whatsappDisplay: "+252 63 422 9393",
+  phone: "+252 63 422 9393",
   calendly: "https://calendly.com/abdiadde",
   socials: {
     tiktok: "https://www.tiktok.com/@abdiaddee",
