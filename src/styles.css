@@ -128,6 +128,21 @@
   border: 1px solid color-mix(in oklab, var(--gold) 20%, transparent);
 }
 
+@utility liquid-glass {
+  position: relative;
+  background:
+    radial-gradient(120% 80% at 0% 0%, color-mix(in oklab, var(--gold) 10%, transparent), transparent 60%),
+    radial-gradient(120% 80% at 100% 100%, color-mix(in oklab, oklch(0.65 0.18 300) 10%, transparent), transparent 60%),
+    color-mix(in oklab, var(--card) 55%, transparent);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid color-mix(in oklab, var(--gold) 22%, transparent);
+  box-shadow:
+    inset 0 1px 0 0 color-mix(in oklab, white 10%, transparent),
+    inset 0 -1px 0 0 color-mix(in oklab, var(--gold) 15%, transparent),
+    0 30px 80px -30px color-mix(in oklab, black 50%, transparent);
+}
+
 @utility text-gradient-gold {
   background: var(--gradient-gold);
   -webkit-background-clip: text;
