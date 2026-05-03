@@ -121,13 +121,6 @@ export function Hero() {
                 {t.hero.cta2}
               </a>
             </motion.div>
-            <motion.div
-              style={{ opacity: scrollHintOpacity }}
-              className="mt-16 flex flex-col items-center gap-2 text-xs text-muted-foreground/70 tracking-widest uppercase"
-            >
-              <span>{t.hero.scroll}</span>
-              <ArrowDown className="size-4 animate-bounce" />
-            </motion.div>
           </div>
         </motion.div>
 
