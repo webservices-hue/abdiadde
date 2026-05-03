@@ -1,5 +1,6 @@
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useMotionPrefs } from "@/hooks/use-motion-prefs";
 import { Camera, Film, Sparkles, Code2, Megaphone, Award, Handshake, Rocket } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import svcContent from "@/assets/svc-content.jpg";
