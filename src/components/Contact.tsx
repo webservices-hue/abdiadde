@@ -1,9 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { useState, type FormEvent } from "react";
-import { Phone, MessageCircle, MapPin, Send, Calendar, Copy, X, Check, ExternalLink } from "lucide-react";
+import { Phone, MessageCircle, MapPin, Send, Copy, X, Check, ExternalLink } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
 import { toast } from "sonner";
+import { buildWhatsAppUrl, openExternalBlank } from "@/lib/whatsapp";
 
 const services = ["Content Creation", "Video Editing", "Photography", "Web Systems"];
 const methods = ["WhatsApp", "Phone"];
@@ -29,14 +30,21 @@ export function Contact() {
     e.preventDefault();
     const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
     const message = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
-    const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(message)}`;
-    let opened: Window | null = null;
+    const url = buildWhatsAppUrl(message);
     try {
-      opened = window.open(url, "_blank", "noopener,noreferrer");
+      openExternalBlank(url);
     } catch {
-      opened = null;
+      setFallback({ phone: SITE.whatsappDisplay, message, url });
     }
-    if (!opened || opened.closed || typeof opened.closed === "undefined") {
+  };
+
+  const openBookingWhatsApp = () => {
+    const message = "Hello Abdi, I would like to book a call through WhatsApp.";
+    const url = buildWhatsAppUrl(message);
+
+    try {
+      openExternalBlank(url);
+    } catch {
       setFallback({ phone: SITE.whatsappDisplay, message, url });
     }
   };
@@ -66,13 +74,17 @@ export function Contact() {
                 <div className="font-medium">{SITE.phone}</div>
               </div>
             </a>
-            <a href={`https://wa.me/${SITE.whatsapp}`} target="_blank" rel="noreferrer" className="glass rounded-2xl p-5 flex items-center gap-4 hover:border-gold/40 transition-all">
+            <button
+              type="button"
+              onClick={openBookingWhatsApp}
+              className="glass rounded-2xl p-5 flex items-center gap-4 hover:border-gold/40 transition-all text-left"
+            >
               <div className="size-10 rounded-xl bg-gold/10 flex items-center justify-center"><MessageCircle className="size-4 text-gold" /></div>
               <div>
                 <div className="text-xs uppercase tracking-wider text-muted-foreground">{t.contact.whatsapp}</div>
                 <div className="font-medium">{SITE.whatsappDisplay}</div>
               </div>
-            </a>
+            </button>
             <div className="glass rounded-2xl p-5 flex items-center gap-4">
               <div className="size-10 rounded-xl bg-gold/10 flex items-center justify-center"><MapPin className="size-4 text-gold" /></div>
               <div>
@@ -80,17 +92,20 @@ export function Contact() {
                 <div className="font-medium">{t.contact.location}</div>
               </div>
             </div>
-            <a href={SITE.calendly} target="_blank" rel="noreferrer"
-              className="glass-strong rounded-2xl p-5 flex items-center justify-between hover:border-gold/50 transition-all">
+            <button
+              type="button"
+              onClick={openBookingWhatsApp}
+              className="glass-strong w-full rounded-2xl p-5 flex items-center justify-between hover:border-gold/50 transition-all text-left"
+            >
               <div className="flex items-center gap-3">
-                <Calendar className="size-5 text-gold" />
+                <MessageCircle className="size-5 text-gold" />
                 <div>
                   <div className="font-semibold">{t.contact.book}</div>
-                  <div className="text-xs text-muted-foreground">via Calendly</div>
+                  <div className="text-xs text-muted-foreground">via WhatsApp</div>
                 </div>
               </div>
               <Send className="size-4 text-gold" />
-            </a>
+            </button>
           </motion.div>
 
           {/* Form */}
