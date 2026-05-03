@@ -2,16 +2,24 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { Camera, Film, Sparkles, Code2, Megaphone, Award, Handshake, Rocket } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import svcContent from "@/assets/svc-content.jpg";
+import svcVideo from "@/assets/svc-video.jpg";
+import svcPhoto from "@/assets/svc-photo.jpg";
+import svcWeb from "@/assets/svc-web.jpg";
+import collabAd from "@/assets/collab-ad.jpg";
+import collabSponsor from "@/assets/collab-sponsor.jpg";
+import collabBrand from "@/assets/collab-brand.jpg";
+import collabCampaign from "@/assets/collab-campaign.jpg";
 
 const SPRING = { stiffness: 110, damping: 28, mass: 0.4, restDelta: 0.001 };
 
 export function Services() {
   const { t } = useI18n();
   const items = [
-    { key: "content" as const, Icon: Sparkles },
-    { key: "video" as const, Icon: Film },
-    { key: "photo" as const, Icon: Camera },
-    { key: "web" as const, Icon: Code2 },
+    { key: "content" as const, Icon: Sparkles, image: svcContent },
+    { key: "video" as const, Icon: Film, image: svcVideo },
+    { key: "photo" as const, Icon: Camera, image: svcPhoto },
+    { key: "web" as const, Icon: Code2, image: svcWeb },
   ];
 
   const ref = useRef<HTMLDivElement>(null);
@@ -47,16 +55,25 @@ export function Services() {
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">{t.collab.subtitle}</p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {[Megaphone, Award, Handshake, Rocket].map((Icon, i) => (
+            {[
+              { Icon: Megaphone, image: collabAd },
+              { Icon: Award, image: collabSponsor },
+              { Icon: Handshake, image: collabBrand },
+              { Icon: Rocket, image: collabCampaign },
+            ].map(({ Icon, image }, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="liquid-glass rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center hover:border-gold/40 transition-all"
+                className="group liquid-glass rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center hover:border-gold/40 transition-all"
               >
                 <Icon className="size-6 text-gold mb-3" />
+                <div className="relative w-full aspect-[5/4] rounded-xl overflow-hidden mb-3">
+                  <img src={image} alt="" loading="lazy" width={640} height={512} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+                </div>
                 <div className="text-sm font-medium">{t.collab.items[i]}</div>
               </motion.div>
             ))}
@@ -77,7 +94,7 @@ function ServiceCard({
   index: number;
   total: number;
   sp: ReturnType<typeof useSpring>;
-  item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }> };
+  item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }>; image: string };
   t: ReturnType<typeof useI18n>["t"];
 }) {
   // Each card animates as scroll progresses through the section
@@ -89,7 +106,7 @@ function ServiceCard({
   const scale = useTransform(sp, [start, end], [0.88, 1]);
 
   const data = t.services.items[item.key];
-  const { Icon } = item;
+  const { Icon, image } = item;
 
   return (
     <motion.div
@@ -103,8 +120,12 @@ function ServiceCard({
       </div>
       <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gold/15 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
       <div className="relative">
-        <div className="size-12 rounded-2xl glass-strong flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-[oklch(0.08_0.005_80)] transition-all">
+        <div className="size-12 rounded-2xl glass-strong flex items-center justify-center mb-5 group-hover:bg-gold group-hover:text-[oklch(0.08_0.005_80)] transition-all">
           <Icon className="size-5" />
+        </div>
+        <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 ring-1 ring-border/40">
+          <img src={image} alt={data.title} loading="lazy" width={768} height={512} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
         </div>
         <h3 className="font-display text-xl font-bold mb-2">{data.title}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">{data.body}</p>

@@ -7,6 +7,18 @@ export function About() {
   return (
     <section id="about" className="relative py-24 sm:py-32 px-4 sm:px-6">
       <div className="mx-auto max-w-7xl">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-15%" }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="text-center mb-12 sm:mb-16"
+        >
+          <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">About Me</p>
+          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold">
+            <span className="text-gradient-gold">About</span> Me
+          </h2>
+        </motion.div>
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -34,7 +46,6 @@ export function About() {
             transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
             className="text-center lg:text-left"
           >
-            <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">About Me</p>
             <h3 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
               Capturing moments. <span className="text-gradient-gold">Crafting stories.</span>
             </h3>
