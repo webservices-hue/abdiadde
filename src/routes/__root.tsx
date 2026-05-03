@@ -44,6 +44,8 @@ export const Route = createRootRoute({
       { property: "og:site_name", content: "Abdi Adde" },
       { name: "robots", content: "index, follow" },
       { name: "generator", content: "Abdi Adde Studio" },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4e48aa64-d23d-4e15-bc78-1bdf84a9c972" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4e48aa64-d23d-4e15-bc78-1bdf84a9c972" },
     ],
     links: [{ rel: "stylesheet", href: appCss }],
   }),
