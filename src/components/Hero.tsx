@@ -156,10 +156,14 @@ function CardItem({
   progress,
   platform,
   Icon,
+  lite,
+  index,
 }: {
-  progress: ReturnType<typeof useTransform<number, number>>;
+  progress: MotionValue<number>;
   platform: { name: string; count: string; href: string; color: string };
   Icon: React.ComponentType<{ className?: string }>;
+  lite: boolean;
+  index: number;
 }) {
   const opacity = useTransform(progress, [0, 1], [0, 1]);
   const y = useTransform(progress, [0, 1], [60, 0]);
@@ -169,7 +173,10 @@ function CardItem({
       href={platform.href}
       target="_blank"
       rel="noreferrer"
-      style={{ opacity, y, scale }}
+      style={lite ? undefined : { opacity, y, scale }}
+      initial={lite ? { opacity: 0, y: 12 } : false}
+      animate={lite ? { opacity: 1, y: 0 } : undefined}
+      transition={lite ? { delay: 0.05 * index, duration: 0.4 } : undefined}
       whileHover={{ y: -6 }}
       className="group glass-strong relative overflow-hidden rounded-2xl p-4 sm:p-5 hover:border-gold/40 transition-colors will-change-transform pointer-events-auto"
     >
