@@ -20,8 +20,8 @@ export const SITE = {
     facebook: { value: 50000, display: "50K+" },
   },
   videos: [
-    { id: "dQw4w9WgXcQ", title: "Cinematic Reel 2025" },
-    { id: "9bZkp7q19f0", title: "Brand Story · Mogadishu" },
-    { id: "kJQP7kiw5Fk", title: "Travel x Culture" },
+    { id: "upTnp_PCGt0", title: "Cinematic Reel 2025", type: "youtube" as const },
+    { id: "aZQRSV_wK-M", title: "Brand Story · Mogadishu", type: "youtube" as const },
+    { id: "7369656664267492614", title: "Travel x Culture", type: "tiktok" as const, url: "https://www.tiktok.com/@abdiaddee/video/7369656664267492614" },
   ],
 };
