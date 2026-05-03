@@ -23,6 +23,7 @@ export function Services() {
     { key: "web" as const, Icon: Code2, image: svcWeb },
   ];
 
+  const { lite } = useMotionPrefs();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
   const sp = useSpring(scrollYProgress, SPRING);
