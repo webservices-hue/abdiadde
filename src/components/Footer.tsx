@@ -1,5 +1,5 @@
 import { SITE } from "@/lib/site";
-import { Instagram, Facebook, Youtube, Ghost, Heart } from "lucide-react";
+import { Instagram, Facebook, Youtube, Ghost } from "lucide-react";
 
 export function Footer() {
   return (
@@ -45,7 +45,7 @@ export function Footer() {
             © {new Date().getFullYear()} <span className="text-gradient-gold font-display font-bold">Abdi Adde</span>. All rights reserved.
           </div>
           <div className="text-sm text-muted-foreground inline-flex items-center gap-2">
-            Designed & built with <Heart className="size-3.5 text-gold fill-gold" /> by{" "}
+            Designed & built by{" "}
             <a
               href="https://www.youtube.com"
               target="_blank"

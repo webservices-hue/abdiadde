@@ -5,15 +5,16 @@ import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
 
 const services = ["Content Creation", "Video Editing", "Photography", "Web Systems"];
-const methods = ["WhatsApp", "Phone", "Email"];
+const methods = ["WhatsApp", "Phone"];
 
 export function Contact() {
   const { t } = useI18n();
-  const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], notes: "" });
+  const [form, setForm] = useState({ name: "", service: services[0], method: methods[0], phone: "", notes: "" });
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method}.`;
+    const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
+    const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
     const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
     window.open(url, "_blank");
   };
@@ -68,21 +69,6 @@ export function Contact() {
               </div>
               <Send className="size-4 text-gold" />
             </a>
-            {/* Map-style stylized image */}
-            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden glass">
-              <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,oklch(0.78_0.13_82_/_0.25),transparent_60%)]" />
-              <svg className="absolute inset-0 w-full h-full opacity-40" viewBox="0 0 200 150">
-                <defs>
-                  <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                    <path d="M 20 0 L 0 0 0 20" fill="none" stroke="oklch(0.78 0.13 82)" strokeWidth="0.3" />
-                  </pattern>
-                </defs>
-                <rect width="200" height="150" fill="url(#grid)" />
-                <circle cx="100" cy="75" r="3" fill="oklch(0.78 0.13 82)" />
-                <circle cx="100" cy="75" r="12" fill="none" stroke="oklch(0.78 0.13 82)" strokeWidth="0.5" className="animate-pulse" />
-              </svg>
-              <div className="absolute bottom-4 left-4 text-xs uppercase tracking-widest text-gold">Worldwide</div>
-            </div>
           </motion.div>
 
           {/* Form */}
@@ -124,6 +110,25 @@ export function Contact() {
                 >
                   {methods.map((m) => <option key={m}>{m}</option>)}
                 </select>
+              </div>
+            </div>
+            <div>
+              <label className="text-xs uppercase tracking-wider text-muted-foreground">
+                {form.method === "WhatsApp" ? "WhatsApp Number" : "Phone Number"}
+              </label>
+              <div className="mt-2 flex items-stretch rounded-xl bg-input/40 focus-within:ring-2 focus-within:ring-gold/50 overflow-hidden">
+                <span className="px-4 flex items-center text-sm text-gold border-r border-border/40 bg-background/30">+252</span>
+                <input
+                  required
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]{7,12}"
+                  maxLength={12}
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9]/g, "") })}
+                  className="flex-1 bg-transparent px-4 py-3 outline-none"
+                  placeholder="63 422 9393"
+                />
               </div>
             </div>
             <div>
