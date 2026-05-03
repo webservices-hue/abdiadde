@@ -65,7 +65,7 @@ export function Footer() {
           <div className="text-sm text-muted-foreground inline-flex items-center gap-2">
             Designed & built by{" "}
             <a
-              href="https://heero.space"
+              href="https://www.heero.space/"
               target="_blank"
               rel="noreferrer"
               className="font-semibold text-gold hover:underline underline-offset-4"
