@@ -207,7 +207,7 @@ function CardItem({
   progress: ReturnType<typeof useTransform<number, number>>;
   active: boolean;
   platform: { name: string; count: number; href: string; color: string };
-  Icon: (p: { className?: string }) => React.ReactElement;
+  Icon: React.ComponentType<{ className?: string }>;
 }) {
   const opacity = useTransform(progress, [0, 1], [0, 1]);
   const y = useTransform(progress, [0, 1], [40, 0]);
