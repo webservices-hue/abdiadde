@@ -52,7 +52,7 @@ export function Hero() {
   const inView = useInView(sectionRef, { amount: 0.3 });
 
   return (
-    <section ref={ref} className="relative h-[220vh]" id="top">
+    <section ref={ref} className="relative h-[200vh] sm:h-[220vh]" id="top">
       <div ref={sectionRef} className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="absolute inset-0 bg-background" />
         <img src={grainBg} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-screen" />
