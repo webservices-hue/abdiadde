@@ -153,10 +153,8 @@
     0 30px 80px -30px color-mix(in oklab, var(--gold) 25%, transparent);
 }
 
-.dark @utility glass {
-  background: color-mix(in oklab, var(--card) 40%, transparent);
-  border: 1px solid color-mix(in oklab, var(--gold) 15%, transparent);
-}
+
+
 
 @utility text-gradient-gold {
   background: var(--gradient-gold);
