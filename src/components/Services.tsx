@@ -55,16 +55,25 @@ export function Services() {
             <p className="mt-4 text-muted-foreground max-w-xl mx-auto">{t.collab.subtitle}</p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
-            {[Megaphone, Award, Handshake, Rocket].map((Icon, i) => (
+            {[
+              { Icon: Megaphone, image: collabAd },
+              { Icon: Award, image: collabSponsor },
+              { Icon: Handshake, image: collabBrand },
+              { Icon: Rocket, image: collabCampaign },
+            ].map(({ Icon, image }, i) => (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.08, duration: 0.5 }}
-                className="liquid-glass rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center hover:border-gold/40 transition-all"
+                className="group liquid-glass rounded-2xl p-5 sm:p-6 flex flex-col items-center text-center hover:border-gold/40 transition-all"
               >
                 <Icon className="size-6 text-gold mb-3" />
+                <div className="relative w-full aspect-[5/4] rounded-xl overflow-hidden mb-3">
+                  <img src={image} alt="" loading="lazy" width={640} height={512} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+                </div>
                 <div className="text-sm font-medium">{t.collab.items[i]}</div>
               </motion.div>
             ))}
