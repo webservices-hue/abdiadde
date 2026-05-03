@@ -2,8 +2,7 @@ import { createContext, useContext, useEffect, useState, type ReactNode } from "
 
 export type Lang = "en" | "so";
 
-const dict = {
-  en: {
+const en = {
     nav: { work: "Work", about: "About", services: "Services", contact: "Contact" },
     hero: {
       eyebrow: "Filmmaker · Storyteller · Digital Architect",
