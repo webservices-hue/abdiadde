@@ -1,12 +1,25 @@
 import { MessageCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { buildWhatsAppUrl, openExternalBlank } from "@/lib/whatsapp";
+import { SITE } from "@/lib/site";
+import { toast } from "sonner";
 
 export function WhatsAppFloat() {
+  const handleClick = async () => {
+    const url = buildWhatsAppUrl("Hello Abdi, I would like to start a project.");
+    if (openExternalBlank(url)) return;
+    try {
+      await navigator.clipboard.writeText(SITE.whatsappDisplay);
+      toast.success(`WhatsApp blocked here — number copied: ${SITE.whatsappDisplay}`);
+    } catch {
+      toast.message(`WhatsApp blocked. Reach me at ${SITE.whatsappDisplay}`);
+    }
+  };
+
   return (
     <motion.button
       type="button"
-      onClick={() => openExternalBlank(buildWhatsAppUrl("Hello Abdi, I would like to start a project."))}
+      onClick={handleClick}
       aria-label="Chat on WhatsApp"
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
