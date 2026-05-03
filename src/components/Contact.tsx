@@ -113,6 +113,25 @@ export function Contact() {
               </div>
             </div>
             <div>
+              <label className="text-xs uppercase tracking-wider text-muted-foreground">
+                {form.method === "WhatsApp" ? "WhatsApp Number" : "Phone Number"}
+              </label>
+              <div className="mt-2 flex items-stretch rounded-xl bg-input/40 focus-within:ring-2 focus-within:ring-gold/50 overflow-hidden">
+                <span className="px-4 flex items-center text-sm text-gold border-r border-border/40 bg-background/30">+252</span>
+                <input
+                  required
+                  type="tel"
+                  inputMode="numeric"
+                  pattern="[0-9]{7,12}"
+                  maxLength={12}
+                  value={form.phone}
+                  onChange={(e) => setForm({ ...form, phone: e.target.value.replace(/[^0-9]/g, "") })}
+                  className="flex-1 bg-transparent px-4 py-3 outline-none"
+                  placeholder="63 422 9393"
+                />
+              </div>
+            </div>
+            <div>
               <label className="text-xs uppercase tracking-wider text-muted-foreground">{t.contact.notes}</label>
               <textarea
                 required
