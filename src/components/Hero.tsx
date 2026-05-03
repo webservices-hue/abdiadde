@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
 import { useRef } from "react";
-import { ArrowDown, Play, Sparkles, Youtube, Instagram, Facebook, Ghost } from "lucide-react";
+import { Play, Sparkles, Youtube, Instagram, Facebook, Ghost } from "lucide-react";
 import cameraImg from "@/assets/camera-hero.jpg";
 import grainBg from "@/assets/grain-bg.jpg";
 import { useI18n } from "@/lib/i18n";
