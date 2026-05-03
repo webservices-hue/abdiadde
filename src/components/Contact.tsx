@@ -16,7 +16,13 @@ export function Contact() {
     const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
     const msg = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
     const url = `https://wa.me/${SITE.whatsapp}?text=${encodeURIComponent(msg)}`;
-    window.open(url, "_blank");
+    const a = document.createElement("a");
+    a.href = url;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
   };
 
   return (
