@@ -1,5 +1,6 @@
-import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useInView, type MotionValue } from "framer-motion";
 import { useRef } from "react";
+import { useMotionPrefs } from "@/hooks/use-motion-prefs";
 import { Play, Sparkles, Youtube, Instagram, Facebook, Ghost } from "lucide-react";
 import cameraImg from "@/assets/camera-hero.jpg";
 import grainBg from "@/assets/grain-bg.jpg";
