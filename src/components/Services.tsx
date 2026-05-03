@@ -94,7 +94,7 @@ function ServiceCard({
   index: number;
   total: number;
   sp: ReturnType<typeof useSpring>;
-  item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }> };
+  item: { key: "content" | "video" | "photo" | "web"; Icon: React.ComponentType<{ className?: string }>; image: string };
   t: ReturnType<typeof useI18n>["t"];
 }) {
   // Each card animates as scroll progresses through the section
@@ -106,7 +106,7 @@ function ServiceCard({
   const scale = useTransform(sp, [start, end], [0.88, 1]);
 
   const data = t.services.items[item.key];
-  const { Icon } = item;
+  const { Icon, image } = item;
 
   return (
     <motion.div
@@ -120,8 +120,12 @@ function ServiceCard({
       </div>
       <div className="absolute -top-16 -right-16 size-40 rounded-full bg-gold/15 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
       <div className="relative">
-        <div className="size-12 rounded-2xl glass-strong flex items-center justify-center mb-6 group-hover:bg-gold group-hover:text-[oklch(0.08_0.005_80)] transition-all">
+        <div className="size-12 rounded-2xl glass-strong flex items-center justify-center mb-5 group-hover:bg-gold group-hover:text-[oklch(0.08_0.005_80)] transition-all">
           <Icon className="size-5" />
+        </div>
+        <div className="relative w-full aspect-[16/10] rounded-2xl overflow-hidden mb-5 ring-1 ring-border/40">
+          <img src={image} alt={data.title} loading="lazy" width={768} height={512} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/10 to-transparent" />
         </div>
         <h3 className="font-display text-xl font-bold mb-2">{data.title}</h3>
         <p className="text-sm text-muted-foreground leading-relaxed">{data.body}</p>
