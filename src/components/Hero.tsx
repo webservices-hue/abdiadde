@@ -17,11 +17,12 @@ const SPRING = { stiffness: 120, damping: 30, mass: 0.35, restDelta: 0.001 };
 
 export function Hero() {
   const { t } = useI18n();
+  const { lite } = useMotionPrefs();
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
   const sp = useSpring(scrollYProgress, SPRING);
 
-  // Camera shrinks/moves up to the back as user scrolls — never disappears entirely until end
+  // Camera shrinks/moves up to the back as user scrolls
   const cameraScale = useTransform(sp, [0, 0.5, 1], [1, 0.85, 0.55]);
   const cameraY = useTransform(sp, [0, 1], [0, -120]);
   const cameraOpacity = useTransform(sp, [0, 0.7, 1], [1, 0.45, 0.15]);
@@ -31,12 +32,8 @@ export function Hero() {
   // Hero text fades early
   const contentOpacity = useTransform(sp, [0, 0.18], [1, 0]);
   const contentY = useTransform(sp, [0, 0.3], [0, -60]);
-  const scrollHintOpacity = useTransform(sp, [0, 0.1], [1, 0]);
 
-  // Cards reveal in sequence as you scroll down, then HOLD fully visible
-  // through a long "reading window" so you can pause and read the stats.
-  // Scrolling back up reverses the same animation symmetrically.
-  // Reveal window: 0.08 → 0.45 (staggered). Hold: 0.45 → 1.0.
+  // Cards reveal in sequence as you scroll down, then HOLD fully visible.
   const card0 = useTransform(sp, [0.08, 0.22], [0, 1]);
   const card1 = useTransform(sp, [0.14, 0.28], [0, 1]);
   const card2 = useTransform(sp, [0.20, 0.34], [0, 1]);
@@ -55,9 +52,14 @@ export function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const inView = useInView(sectionRef, { amount: 0.3 });
 
+  // On phones / reduced-motion: collapse the 2x-tall pinned section and
+  // disable scroll-bound transforms; cards become a static grid.
+  const cameraStyle = lite ? undefined : { scale: cameraScale, y: cameraY, opacity: cameraOpacity, filter: cameraFilter };
+  const contentStyle = lite ? undefined : { opacity: contentOpacity, y: contentY };
+
   return (
-    <section ref={ref} className="relative h-[200vh] sm:h-[220vh]" id="top">
-      <div ref={sectionRef} className="sticky top-0 h-screen w-full overflow-hidden">
+    <section ref={ref} className={lite ? "relative" : "relative h-[200vh] sm:h-[220vh]"} id="top">
+      <div ref={sectionRef} className={lite ? "relative min-h-screen w-full overflow-hidden" : "sticky top-0 h-screen w-full overflow-hidden"}>
         <div className="absolute inset-0 bg-background" />
         <img src={grainBg} alt="" aria-hidden className="absolute inset-0 h-full w-full object-cover opacity-40 mix-blend-screen" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_60%,oklch(0.78_0.13_82_/_0.18),transparent_60%)]" />
