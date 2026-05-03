@@ -32,12 +32,15 @@ export function Hero() {
   const contentY = useTransform(sp, [0, 0.3], [0, -60]);
   const scrollHintOpacity = useTransform(sp, [0, 0.1], [1, 0]);
 
-  // Cards begin revealing IMMEDIATELY as scroll begins
-  const card0 = useTransform(sp, [0.05, 0.2], [0, 1]);
-  const card1 = useTransform(sp, [0.1, 0.25], [0, 1]);
-  const card2 = useTransform(sp, [0.15, 0.3], [0, 1]);
-  const card3 = useTransform(sp, [0.2, 0.35], [0, 1]);
-  const card4 = useTransform(sp, [0.25, 0.4], [0, 1]);
+  // Cards reveal in sequence as you scroll down, then HOLD fully visible
+  // through a long "reading window" so you can pause and read the stats.
+  // Scrolling back up reverses the same animation symmetrically.
+  // Reveal window: 0.08 → 0.45 (staggered). Hold: 0.45 → 1.0.
+  const card0 = useTransform(sp, [0.08, 0.22], [0, 1]);
+  const card1 = useTransform(sp, [0.14, 0.28], [0, 1]);
+  const card2 = useTransform(sp, [0.20, 0.34], [0, 1]);
+  const card3 = useTransform(sp, [0.26, 0.40], [0, 1]);
+  const card4 = useTransform(sp, [0.32, 0.46], [0, 1]);
   const cardProgress = [card0, card1, card2, card3, card4];
 
   const platforms = [
