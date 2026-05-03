@@ -100,6 +100,13 @@
   }
   html {
     scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+  @media (max-width: 768px) {
+    html { scroll-behavior: auto; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
   }
   body {
     background-color: var(--color-background);

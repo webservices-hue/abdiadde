@@ -3,7 +3,7 @@ import { useRef } from "react";
 import { Camera, Film, Sparkles, Code2, Megaphone, Award, Handshake, Rocket } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const SPRING = { stiffness: 80, damping: 22, mass: 0.5 };
+const SPRING = { stiffness: 110, damping: 28, mass: 0.4, restDelta: 0.001 };
 
 export function Services() {
   const { t } = useI18n();
