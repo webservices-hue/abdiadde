@@ -138,6 +138,16 @@
   box-shadow: 0 1px 0 0 color-mix(in oklab, white 70%, transparent) inset;
 }
 
+/* Light theme: increase opacity so glass surfaces stay clearly readable. */
+html:not(.dark) .glass,
+html:not(.dark) [class~="glass"] {
+  background: color-mix(in oklab, var(--card) 88%, transparent);
+}
+html:not(.dark) .glass-strong,
+html:not(.dark) [class~="glass-strong"] {
+  background: color-mix(in oklab, var(--card) 96%, transparent);
+}
+
 @utility liquid-glass {
   position: relative;
   background:
