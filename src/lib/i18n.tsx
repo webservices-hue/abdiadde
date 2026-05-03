@@ -93,13 +93,60 @@ const en = {
       phone: "Telefoon", whatsapp: "WhatsApp", location: "Fog · Adduunka oo dhan",
       success: "Furaya WhatsApp…",
     },
-  },
-} as const;
+};
 
-type Dict = typeof dict["en"];
+const so: typeof en = {
+    nav: { work: "Shaqo", about: "Ku Saabsan", services: "Adeegyo", contact: "Xiriir" },
+    hero: {
+      eyebrow: "Filim-sameeye · Sheekoyahan · Naqshade Dhijitaal",
+      cta1: "Eeg Shaqada",
+      cta2: "Bilow Mashruuc",
+      intro: "Waxaan abuuraa sheekooyin dhab ah iyo nidaamyo dhijitaal ah oo astaamaha kor u qaada.",
+      scroll: "Hoos u dhaadhac",
+    },
+    audience: {
+      title: "Nus milyan oo daawade",
+      subtitle: "Daawade caalami ah oo la dhisay sawir-sawir.",
+    },
+    work: {
+      title: "Shaqada La Doortay",
+      subtitle: "Filimo, sheekooyin astaan iyo dhambaalo dhijitaal.",
+      more: "Ka eeg TikTok",
+    },
+    about: {
+      title: "Ku Saabsan Aniga",
+      body: "Salaan, waxaan ahay Abdi-Addee — Sawir-qaade iyo Abuuraha Maxaadooyinka. Ku soo dhaweyn bogga shaqadayda. Waxaan jeclahay qabashada xilliyada iyo abuurista nuxurka dhijitaalka. Shaqadaydu waxay diiradda saareysaa sheeko-sheegidda, hal-abuurnimada iyo nooleynta fikradaha.",
+    },
+    services: {
+      title: "Waxaan Sameeyo",
+      subtitle: "Afar fan, hal hadaf - tayo sare.",
+      items: {
+        content: { title: "Abuuritaanka Nuxurka", body: "Nuxur bulsho oo gaara dadka oo loo sameeyay gaarsiin iyo haynta." },
+        video: { title: "Tafatirka Muuqaalka", body: "Midab filim, naqshad dhawaaq iyo xawaare hayste fiiro." },
+        photo: { title: "Sawir Qaadid", body: "Sawirro daabacaad, astaan iyo nolol oo leh muuqaal gaar ah." },
+        web: { title: "Nidaamyada Webka", body: "Bogag dhaqso, qurux iyo nidaamyo dhijitaal oo wax beddela." },
+      },
+    },
+    collab: {
+      title: "Aan Wadaagno Shaqo",
+      subtitle: "Diyaar u ah xayeysiin, kafaala-qaad, ololeyaal astaan iyo iskaashi hal-abuur.",
+      items: ["Xayeysiin", "Kafaala-qaad", "Iskaashi Astaan", "Ololayaasha Nuxurka"],
+    },
+    contact: {
+      title: "Bilow Mashruucaaga",
+      subtitle: "Ii sheeg fikradaada. Waxaan kaa jawaabi doonaa 24 saac gudahood.",
+      name: "Magaca Buuxa", service: "Adeegga", method: "Habka Xiriirka", notes: "Faahfaahin",
+      submit: "Ku dir WhatsApp", book: "Qabso Wicitaan",
+      phone: "Telefoon", whatsapp: "WhatsApp", location: "Fog · Adduunka oo dhan",
+      success: "Furaya WhatsApp…",
+    },
+};
+
+const dict = { en, so };
+type Dict = typeof en;
 
 const Ctx = createContext<{ lang: Lang; setLang: (l: Lang) => void; t: Dict }>({
-  lang: "en", setLang: () => {}, t: dict.en,
+  lang: "en", setLang: () => {}, t: en,
 });
 
 export function I18nProvider({ children }: { children: ReactNode }) {
