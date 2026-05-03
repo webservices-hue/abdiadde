@@ -1,8 +1,19 @@
 import { SITE } from "@/lib/site";
 import { Instagram, Facebook, Youtube, Ghost } from "lucide-react";
 import { buildWhatsAppUrl, openExternalBlank } from "@/lib/whatsapp";
+import { toast } from "sonner";
 
 export function Footer() {
+  const handleWhatsApp = async () => {
+    const url = buildWhatsAppUrl("Hello Abdi, I would like to connect on WhatsApp.");
+    if (openExternalBlank(url)) return;
+    try {
+      await navigator.clipboard.writeText(SITE.whatsappDisplay);
+      toast.success(`WhatsApp blocked here — number copied: ${SITE.whatsappDisplay}`);
+    } catch {
+      toast.message(`WhatsApp blocked. Reach me at ${SITE.whatsappDisplay}`);
+    }
+  };
   return (
     <footer className="relative border-t border-border/40 pt-16 pb-10 px-4 sm:px-6 mt-12 overflow-hidden">
       <div className="pointer-events-none absolute inset-0 -z-10">
@@ -38,7 +49,7 @@ export function Footer() {
             <p className="text-[10px] tracking-[0.3em] uppercase text-gold mb-3">Get in Touch</p>
             <button
               type="button"
-              onClick={() => openExternalBlank(buildWhatsAppUrl("Hello Abdi, I would like to connect on WhatsApp."))}
+              onClick={handleWhatsApp}
               className="block text-sm hover:text-gold transition-colors mx-auto lg:ml-auto lg:mr-0"
             >
               {SITE.whatsappDisplay}

@@ -31,9 +31,7 @@ export function Contact() {
     const fullPhone = `+252${form.phone.replace(/^0+/, "")}`;
     const message = `Hello Abdi, my name is ${form.name}. I'm interested in ${form.service}.\nProject details: ${form.notes}.\nPreferred contact: ${form.method} (${fullPhone}).`;
     const url = buildWhatsAppUrl(message);
-    try {
-      openExternalBlank(url);
-    } catch {
+    if (!openExternalBlank(url)) {
       setFallback({ phone: SITE.whatsappDisplay, message, url });
     }
   };
@@ -41,10 +39,7 @@ export function Contact() {
   const openBookingWhatsApp = () => {
     const message = "Hello Abdi, I would like to book a call through WhatsApp.";
     const url = buildWhatsAppUrl(message);
-
-    try {
-      openExternalBlank(url);
-    } catch {
+    if (!openExternalBlank(url)) {
       setFallback({ phone: SITE.whatsappDisplay, message, url });
     }
   };
