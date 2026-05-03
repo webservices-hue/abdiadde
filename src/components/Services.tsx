@@ -2,6 +2,14 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { Camera, Film, Sparkles, Code2, Megaphone, Award, Handshake, Rocket } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
+import svcContent from "@/assets/svc-content.jpg";
+import svcVideo from "@/assets/svc-video.jpg";
+import svcPhoto from "@/assets/svc-photo.jpg";
+import svcWeb from "@/assets/svc-web.jpg";
+import collabAd from "@/assets/collab-ad.jpg";
+import collabSponsor from "@/assets/collab-sponsor.jpg";
+import collabBrand from "@/assets/collab-brand.jpg";
+import collabCampaign from "@/assets/collab-campaign.jpg";
 
 const SPRING = { stiffness: 110, damping: 28, mass: 0.4, restDelta: 0.001 };
 
