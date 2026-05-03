@@ -13,7 +13,7 @@ export const SITE = {
     youtube: "https://www.youtube.com/@abdiaddee",
   },
   followers: {
-    youtube: { value: 180000, display: "180K+" },
+    youtube: { value: 3530, display: "3.53K+" },
     tiktok: { value: 665300, display: "665.3K+" },
     instagram: { value: 60800, display: "60.8K+" },
     snapchat: { value: 50000, display: "50K+" },

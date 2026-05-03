@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Play, ArrowUpRight, X } from "lucide-react";
+import { Maximize2, X, ArrowUpRight } from "lucide-react";
 import { SITE } from "@/lib/site";
 import { useI18n } from "@/lib/i18n";
 
@@ -26,43 +26,45 @@ export function Work() {
 
         <div className="grid md:grid-cols-3 gap-5">
           {SITE.videos.map((v, i) => {
-            const thumb =
-              v.type === "youtube"
-                ? `https://img.youtube.com/vi/${v.id}/maxresdefault.jpg`
-                : `https://www.tiktok.com/oembed?url=${encodeURIComponent(v.url ?? "")}`;
+            const isTikTok = v.type === "tiktok";
+            const embedSrc = isTikTok
+              ? `https://www.tiktok.com/embed/v2/${v.id}`
+              : `https://www.youtube.com/embed/${v.id}?rel=0&modestbranding=1`;
             return (
-              <motion.button
+              <motion.div
                 key={v.id}
-                onClick={() => setOpen(v.id)}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-10%" }}
-                transition={{ delay: i * 0.12, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-                className="group relative aspect-[4/5] overflow-hidden rounded-2xl glass text-left"
+                transition={{ delay: i * 0.1, duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+                className="group relative overflow-hidden rounded-2xl glass"
               >
-                {v.type === "youtube" ? (
-                  <img
-                    src={thumb}
-                    alt={v.title}
+                <div className={isTikTok ? "relative aspect-[9/16] bg-black" : "relative aspect-video bg-black"}>
+                  <iframe
+                    src={embedSrc}
+                    title={v.title}
                     loading="lazy"
-                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                    allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="absolute inset-0 h-full w-full"
                   />
-                ) : (
-                  <div className="absolute inset-0 bg-gradient-to-br from-pink-600/40 via-purple-700/40 to-cyan-500/40" />
-                )}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="size-16 rounded-full glass-strong flex items-center justify-center group-hover:scale-110 group-hover:bg-gold/80 transition-all">
-                    <Play className="size-6 fill-current ml-1" />
-                  </div>
                 </div>
-                <div className="absolute bottom-0 left-0 right-0 p-5 text-white">
-                  <div className="text-xs tracking-widest uppercase text-gold/90 mb-1">
-                    0{i + 1} · {v.type === "tiktok" ? "TikTok" : "Film"}
+                <div className="flex items-center justify-between p-4">
+                  <div>
+                    <div className="text-[10px] tracking-widest uppercase text-gold/90">
+                      0{i + 1} · {isTikTok ? "TikTok" : "Film"}
+                    </div>
+                    <div className="font-display font-semibold text-base mt-0.5">{v.title}</div>
                   </div>
-                  <div className="font-display font-semibold text-lg">{v.title}</div>
+                  <button
+                    onClick={() => setOpen(v.id)}
+                    aria-label="Open fullscreen"
+                    className="shrink-0 size-9 rounded-full glass-strong flex items-center justify-center hover:bg-gold/80 hover:text-[oklch(0.08_0.005_80)] transition-colors"
+                  >
+                    <Maximize2 className="size-4" />
+                  </button>
                 </div>
-              </motion.button>
+              </motion.div>
             );
           })}
         </div>
