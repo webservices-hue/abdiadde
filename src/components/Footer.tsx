@@ -1,5 +1,6 @@
 import { SITE } from "@/lib/site";
 import { Instagram, Facebook, Youtube, Ghost } from "lucide-react";
+import { buildWhatsAppUrl, openExternalBlank } from "@/lib/whatsapp";
 
 export function Footer() {
   return (
@@ -35,7 +36,13 @@ export function Footer() {
           {/* Contact */}
           <div className="text-center lg:text-right">
             <p className="text-[10px] tracking-[0.3em] uppercase text-gold mb-3">Get in Touch</p>
-            <a href={`https://wa.me/${SITE.whatsapp}`} className="block text-sm hover:text-gold transition-colors">{SITE.whatsappDisplay}</a>
+            <button
+              type="button"
+              onClick={() => openExternalBlank(buildWhatsAppUrl("Hello Abdi, I would like to connect on WhatsApp."))}
+              className="block text-sm hover:text-gold transition-colors mx-auto lg:ml-auto lg:mr-0"
+            >
+              {SITE.whatsappDisplay}
+            </button>
             <p className="text-sm text-muted-foreground mt-1">Hargeisa · Somaliland</p>
           </div>
         </div>
@@ -47,7 +54,7 @@ export function Footer() {
           <div className="text-sm text-muted-foreground inline-flex items-center gap-2">
             Designed & built by{" "}
             <a
-              href="https://www.youtube.com"
+              href="https://heero.space"
               target="_blank"
               rel="noreferrer"
               className="font-semibold text-gold hover:underline underline-offset-4"
