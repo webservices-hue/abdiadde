@@ -44,8 +44,8 @@ export function Hero() {
             transition={{ delay: 0.35, duration: 1 }}
             className="font-display font-bold leading-[0.9] text-[clamp(3rem,12vw,9rem)] tracking-tight"
           >
-            <span className="block">ABDI</span>
-            <span className="block text-gradient-gold">ADDE</span>
+            <span className="block">ABDIADDEE</span>
+            <span className="block text-gradient-gold">MEDIA SOLUTIONS</span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
