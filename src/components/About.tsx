@@ -15,9 +15,6 @@ export function About() {
           className="text-center mb-12 sm:mb-16"
         >
           <p className="text-xs tracking-[0.3em] uppercase text-gold mb-3">About Me</p>
-          <h2 className="font-display text-4xl sm:text-5xl lg:text-6xl font-bold">
-            <span className="text-gradient-gold">About</span> Me
-          </h2>
         </motion.div>
         <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <motion.div
