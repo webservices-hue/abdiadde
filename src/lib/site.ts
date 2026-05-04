@@ -1,5 +1,5 @@
 export const SITE = {
-  name: "Abdi Adde",
+  name: "Abdiaddee Media Solutions",
   tagline: "Filmmaker. Storyteller. Digital Architect.",
   whatsapp: "252634229393",
   whatsappDisplay: "+252 63 422 9393",

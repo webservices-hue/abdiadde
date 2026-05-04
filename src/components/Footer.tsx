@@ -24,8 +24,9 @@ export function Footer() {
         <div className="grid gap-10 lg:grid-cols-3 items-start">
           {/* Brand */}
           <div className="text-center lg:text-left">
-            <div className="font-display font-bold text-3xl mb-3">
-              <span className="text-gradient-gold">ABDI</span> ADDE
+            <div className="font-display font-bold text-3xl mb-3 leading-tight">
+              <span className="text-gradient-gold">ABDIADDEE</span><br />
+              <span className="text-foreground/90 text-2xl">MEDIA SOLUTIONS</span>
             </div>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto lg:mx-0">
               Filmmaker, photographer and digital architect crafting cinematic stories and modern web experiences from Hargeisa, Somaliland — for a global audience of 500K+.
@@ -60,7 +61,7 @@ export function Footer() {
 
         <div className="mt-12 pt-8 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4 text-center">
           <div className="text-base sm:text-lg font-medium">
-            © {new Date().getFullYear()} <span className="text-gradient-gold font-display font-bold">Abdi Adde</span>. All rights reserved.
+            © {new Date().getFullYear()} <span className="text-gradient-gold font-display font-bold">Abdiaddee Media Solutions</span>. All rights reserved.
           </div>
           <div className="text-sm text-muted-foreground inline-flex items-center gap-2">
             Designed & built by{" "}

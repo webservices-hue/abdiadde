@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Moon, Sun, Monitor, Languages } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { useTheme } from "@/lib/theme";
+import logoImg from "@/assets/abdi-logo.png";
 
 export function Header() {
   const { lang, setLang, t } = useI18n();
@@ -34,8 +35,9 @@ export function Header() {
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-all duration-500 ${scrolled ? "" : ""}`}>
         <div className={`flex items-center justify-between rounded-full px-4 sm:px-6 py-3 transition-all duration-500 ${scrolled ? "glass-strong shadow-elegant" : ""}`}>
           <Link to="/" className="flex items-center gap-2 font-display font-bold tracking-tight">
-            <span className="text-gradient-gold text-lg sm:text-xl">ABDI</span>
-            <span className="text-foreground/90 text-lg sm:text-xl">ADDE</span>
+            <img src={logoImg} alt="Abdiaddee Media Solutions" className="size-8 sm:size-9 rounded-full object-cover ring-1 ring-gold/40" width={36} height={36} />
+            <span className="text-gradient-gold text-sm sm:text-base hidden xs:inline">ABDIADDEE</span>
+            <span className="text-foreground/90 text-sm sm:text-base hidden sm:inline">MEDIA SOLUTIONS</span>
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm">
