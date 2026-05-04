@@ -1,5 +1,6 @@
 import { SITE } from "@/lib/site";
 import { Instagram, Facebook, Youtube, Ghost } from "lucide-react";
+import logoImg from "@/assets/abdi-logo.png";
 import { buildWhatsAppUrl, openExternalBlank } from "@/lib/whatsapp";
 import { toast } from "sonner";
 
