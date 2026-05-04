@@ -33,7 +33,7 @@ function Index() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Person",
-            name: "Abdi Adde",
+            name: "Abdiaddee Media Solutions",
             jobTitle: "Filmmaker, Photographer, Content Creator, Web Developer",
             url: "https://abdiadde.com",
             sameAs: [
