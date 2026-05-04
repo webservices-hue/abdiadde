@@ -34,10 +34,8 @@ export function Header() {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled ? "py-3" : "py-5"} ${hidden ? "-translate-y-full opacity-0 pointer-events-none" : "translate-y-0 opacity-100"}`}>
       <div className={`mx-auto max-w-7xl px-4 sm:px-6 transition-all duration-500 ${scrolled ? "" : ""}`}>
         <div className={`flex items-center justify-between rounded-full px-4 sm:px-6 py-3 transition-all duration-500 ${scrolled ? "glass-strong shadow-elegant" : ""}`}>
-          <Link to="/" className="flex items-center gap-2 font-display font-bold tracking-tight">
-            <img src={logoImg} alt="Abdiaddee Media Solutions" className="size-8 sm:size-9 rounded-full object-cover ring-1 ring-gold/40" width={36} height={36} />
-            <span className="text-gradient-gold text-sm sm:text-base hidden xs:inline">ABDIADDEE</span>
-            <span className="text-foreground/90 text-sm sm:text-base hidden sm:inline">MEDIA SOLUTIONS</span>
+          <Link to="/" className="flex items-center font-display font-bold tracking-tight">
+            <img src={logoImg} alt="Abdiaddee Media Solutions" className="h-9 sm:h-10 w-auto object-contain" />
           </Link>
 
           <nav className="hidden md:flex items-center gap-8 text-sm">
