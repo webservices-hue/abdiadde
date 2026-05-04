@@ -24,12 +24,9 @@ export function Footer() {
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-10 lg:grid-cols-3 items-start">
           {/* Brand */}
-          <div className="text-center lg:text-left">
-            <div className="font-display font-bold text-3xl mb-3 leading-tight">
-              <span className="text-gradient-gold">ABDIADDEE</span><br />
-              <span className="text-foreground/90 text-2xl">MEDIA SOLUTIONS</span>
-            </div>
-            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm mx-auto lg:mx-0">
+          <div className="text-center lg:text-left flex flex-col items-center lg:items-start">
+            <img src={logoImg} alt="Abdiaddee Media Solutions" className="h-16 sm:h-20 w-auto object-contain mb-4" />
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
               Filmmaker, photographer and digital architect crafting cinematic stories and modern web experiences from Hargeisa, Somaliland — for a global audience of 500K+.
             </p>
           </div>
